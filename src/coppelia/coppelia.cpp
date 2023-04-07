@@ -26,7 +26,7 @@ int clientCoppelia()
 
 int handleObjeto(int client, char path[])
 {
-    int handle;
+    int handle = -1;
     simxGetObjectHandle(client, path, &handle, simx_opmode_oneshot_wait);
     return handle;
 }

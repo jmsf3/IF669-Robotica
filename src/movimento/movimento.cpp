@@ -10,6 +10,9 @@
 #define Z 2
 #define BUFFER 4096
 #define PI 3.14159265358979323846
+#define FATOR_AJUSTE1 0.025
+#define FATOR_AJUSTE2 (5.0 / 180) * PI
+#define FATOR_AJUSTE3 (4.5 / 180) * PI
 
 void apertarDigito(int client, int* handleJuntas, char digito)
 {
@@ -19,41 +22,39 @@ void apertarDigito(int client, int* handleJuntas, char digito)
     pathDigito[len + 1] = '\0';
     int handleDigito = handleObjeto(client, pathDigito);
 
-    char pathPonta[BUFFER] = "/NiryoOne/NiryoLGripper/Point";
-    int handlePonta = handleObjeto(client, pathPonta);
+    char pathExtremidade[BUFFER] = "/NiryoOne/NiryoLGripper/Point";
+    int handleExtremidade = handleObjeto(client, pathExtremidade);
 
-    float* coordJunta2 = coordenadasObjeto(client, handleJuntas[1]);
-    float* coordJunta3 = coordenadasObjeto(client, handleJuntas[2]);
-    float* coordPonta = coordenadasObjeto(client, handlePonta);
-    float* coordDigito = coordenadasObjeto(client, handleDigito);
+    float* posBase = coordenadasObjeto(client, handleJuntas[1]);
+    float* posMeio = coordenadasObjeto(client, handleJuntas[2]);
+    float* posExtremidade = coordenadasObjeto(client, handleExtremidade);
+    float* posDigito = coordenadasObjeto(client, handleDigito);
 
-    float x2 = coordJunta2[X], y2 = coordJunta2[Y], z2 = coordJunta2[Z];
-    float x3 = coordJunta3[X], y3 = coordJunta3[Y], z3 = coordJunta3[Z];
-    float xP = coordPonta[X], yP = coordPonta[Y], zP = coordPonta[Z];
-    float xD = coordDigito[X], yD = coordDigito[Y], zD = coordDigito[Z];
+    float xB = posBase[X], yB = posBase[Y], zB = posBase[Z];
+    float xM = posMeio[X], yM = posMeio[Y], zM = posMeio[Z];
+    float xE = posExtremidade[X], yE = posExtremidade[Y], zE = posExtremidade[Z];
+    float xD = posDigito[X], yD = posDigito[Y], zD = posDigito[Z];
 
     // Comprimentos dos braços
-    float fatorCorrecaoL2 = 0.025;
-    float l1 = sqrt(pow(x3 - x2, 2) + pow(y3 - y2, 2) + pow(z3 - z2, 2));
-    float l2 = sqrt(pow(xP - x3, 2) + pow(yP - y3, 2) + pow(zP - z3, 2)) + fatorCorrecaoL2;
-    float d = sqrt(pow(xD - x2, 2) + pow(yD - y2, 2) + pow(zD - z2, 2));
+    float l1 = sqrt(pow(xM - xB, 2) + pow(yM - yB, 2) + pow(zM - zB, 2));
+    float l2 = sqrt(pow(xE - xM, 2) + pow(yE - yM, 2) + pow(zE - zM, 2)) + FATOR_AJUSTE1;
+    float d = sqrt(pow(xD - xB, 2) + pow(yD - yB, 2) + pow(zD - zB, 2));
 
     // Rotacionar a base
-    float anguloBase = atan((xD - x2) / (yD - y2));
-    simxSetJointTargetPosition(client, handleJuntas[0], -anguloBase, simx_opmode_oneshot_wait);
+    float beta = atan((xD - xB) / (yD - yB));
+    simxSetJointTargetPosition(client, handleJuntas[0], -beta, simx_opmode_oneshot_wait);
 
-    float phi = atan((zD - z2) / sqrt(pow(xD - x2, 2) + pow(yD - y2, 2)));
+    float phi = atan((zD - zB) / sqrt(pow(xD - xB, 2) + pow(yD - yB, 2)));
     float theta = acos((pow(d, 2) + pow(l1, 2) - pow(l2, 2)) / (2 * d * l1));
     float gamma = acos((pow(d, 2) + pow(l2, 2) - pow(l1, 2)) / (2 * d * l2));
 
-    // Rotacionar braço de comprimento L1
-    float fatorCorrecaoA1 = (5.0 / 180) * PI;
-    float anguloL1 = PI / 2 - (phi + theta) + fatorCorrecaoA1;
-    simxSetJointTargetPosition(client, handleJuntas[1], -anguloL1, simx_opmode_oneshot_wait);
+    // Rotacionar braço de comprimento l1
+    float alpha1 = PI / 2 - (phi + theta) + FATOR_AJUSTE2;
+    simxSetJointTargetPosition(client, handleJuntas[1], -alpha1, simx_opmode_oneshot_wait);
 
-    // Rotacionar braço de comprimento L2
-    float anguloL2 = PI / 2 - (gamma + theta);
-    simxSetJointTargetPosition(client, handleJuntas[2], anguloL2, simx_opmode_oneshot_wait);
+    // Rotacionar braço de comprimento l2
+    float alpha2 = PI / 2 - (gamma + theta);
+    simxSetJointTargetPosition(client, handleJuntas[2], alpha2, simx_opmode_oneshot_wait);
     extApi_sleepMs(5000);
 
     // Desrotacionar os braços
@@ -68,40 +69,38 @@ void apertarConfirma(int client, int* handleJuntas)
     int handleConfirma = handleObjeto(client, pathConfirma);
 
     char pathPonta[BUFFER] = "/NiryoOne/NiryoLGripper/Point";
-    int handlePonta = handleObjeto(client, pathPonta);
+    int handleExtremidade = handleObjeto(client, pathPonta);
 
-    float* coordJunta2 = coordenadasObjeto(client, handleJuntas[1]);
-    float* coordJunta3 = coordenadasObjeto(client, handleJuntas[2]);
-    float* coordPonta = coordenadasObjeto(client, handlePonta);
-    float* coordConfirma = coordenadasObjeto(client, handleConfirma);
+    float* posBase = coordenadasObjeto(client, handleJuntas[1]);
+    float* posMeio = coordenadasObjeto(client, handleJuntas[2]);
+    float* posExtremidade = coordenadasObjeto(client, handleExtremidade);
+    float* posConfirma = coordenadasObjeto(client, handleConfirma);
 
-    float x2 = coordJunta2[X], y2 = coordJunta2[Y], z2 = coordJunta2[Z];
-    float x3 = coordJunta3[X], y3 = coordJunta3[Y], z3 = coordJunta3[Z];
-    float xP = coordPonta[X], yP = coordPonta[Y], zP = coordPonta[Z];
-    float xC = coordConfirma[X], yC = coordConfirma[Y], zC = coordConfirma[Z];
+    float xB = posBase[X], yB = posBase[Y], zB = posBase[Z];
+    float xM = posMeio[X], yM = posMeio[Y], zM = posMeio[Z];
+    float xE = posExtremidade[X], yE = posExtremidade[Y], zE = posExtremidade[Z];
+    float xC = posConfirma[X], yC = posConfirma[Y], zC = posConfirma[Z];
 
     // Comprimentos dos braços
-    float fatorCorrecaoL2 = 0.025;
-    float l1 = sqrt(pow(x3 - x2, 2) + pow(y3 - y2, 2) + pow(z3 - z2, 2));
-    float l2 = sqrt(pow(xP - x3, 2) + pow(yP - y3, 2) + pow(zP - z3, 2)) + fatorCorrecaoL2;
-    float d = sqrt(pow(xC - x2, 2) + pow(yC - y2, 2) + pow(zC - z2, 2));
+    float l1 = sqrt(pow(xM - xB, 2) + pow(yM - yB, 2) + pow(zM - zB, 2));
+    float l2 = sqrt(pow(xE - xM, 2) + pow(yE - yM, 2) + pow(zE - zM, 2)) + FATOR_AJUSTE1;
+    float d = sqrt(pow(xC - xB, 2) + pow(yC - yB, 2) + pow(zC - zB, 2));
 
     // Rotacionar a base
-    float anguloBase = atan((xC - x2) / (yC - y2));
-    simxSetJointTargetPosition(client, handleJuntas[0], -anguloBase, simx_opmode_oneshot_wait);
+    float beta = atan((xC - xB) / (yC - yB));
+    simxSetJointTargetPosition(client, handleJuntas[0], -beta, simx_opmode_oneshot_wait);
 
-    float phi = atan((zC - z2) / sqrt(pow(xC - x2, 2) + pow(yC - y2, 2)));
+    float phi = atan((zC - zB) / sqrt(pow(xC - xB, 2) + pow(yC - yB, 2)));
     float theta = acos((pow(d, 2) + pow(l1, 2) - pow(l2, 2)) / (2 * d * l1));
     float gamma = acos((pow(d, 2) + pow(l2, 2) - pow(l1, 2)) / (2 * d * l2));
 
-    // Rotacionar braço de comprimento L1
-    float fatorCorrecaoA1 = (4.5 / 180) * PI;
-    float anguloL1 = PI / 2 - (phi + theta) + fatorCorrecaoA1;
-    simxSetJointTargetPosition(client, handleJuntas[1], -anguloL1, simx_opmode_oneshot_wait);
+    // Rotacionar braço de comprimento l1
+    float alpha1 = PI / 2 - (phi + theta) + FATOR_AJUSTE3;
+    simxSetJointTargetPosition(client, handleJuntas[1], -alpha1, simx_opmode_oneshot_wait);
 
-    // Rotacionar braço de comprimento L2
-    float anguloL2 = PI / 2 - (gamma + theta);
-    simxSetJointTargetPosition(client, handleJuntas[2], anguloL2, simx_opmode_oneshot_wait);
+    // Rotacionar braço de comprimento l2
+    float alpha2 = PI / 2 - (gamma + theta);
+    simxSetJointTargetPosition(client, handleJuntas[2], alpha2, simx_opmode_oneshot_wait);
     extApi_sleepMs(5000);
 
     // Desrotacionar os braços

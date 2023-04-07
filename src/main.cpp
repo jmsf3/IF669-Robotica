@@ -24,12 +24,9 @@ int main()
         int len = strlen(pathJunta);
         pathJunta[len] = '1' + i;
         pathJunta[len + 1] = '\0';
-        // printf("%s\n", pathJunta);
         handleJuntas[i] = handleObjeto(client, pathJunta);
     }
     
-    // printf("Iniciando teste...\n");
-
     for (int i = 0; i < numVotos; i++) // Iterar sobre os votos
     {
         int numDigitos = strlen(votos[i]);
@@ -37,15 +34,11 @@ int main()
         for (int j = 0; j < numDigitos; j++) // Iterar sobre os dígitos dos votos
         {
             char digito = votos[i][j];
-            // printf("Apertando a tecla %c...\n", digito);
             apertarDigito(client, handleJuntas, digito);
         }
 
-        // printf("Apertando a tecla confirma...\n");
         apertarConfirma(client, handleJuntas);
     }
-
-    // printf("Teste finalizado.\n");
 
     // Fechar a conexão com CoppeliaSim 
     simxFinish(client);
