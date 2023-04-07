@@ -13,7 +13,7 @@ O projeto consiste em desenvolver um progama na linguagem __C++__ que seja capaz
 Para realizar a conexão com o simulador usamos uma [API remota](https://www.coppeliarobotics.com/helpFiles/en/legacyRemoteApiOverview.htm) que já está disponível dentro do próprio CoppeliaSim.
 
 # Leitura
-Através dos headers __<stdio.h>__ e __<stdlib.h>__ lemos o arquivo __"votos.txt"__ e armazenamos os votos lidos em __vetor dinâmico__ de strings.
+Através dos headers __<stdio.h>__ e __<stdlib.h>__ lemos o arquivo __"votos.txt"__ e armazenamos os votos lidos em um __vetor dinâmico__ de strings.
 
 # Movimentação
 * A movimentação do braço se deu por meio da manipulação dos ângulos das juntas do robô. A configuração final das juntas foi obtida da seguinte maneira através de cinemática inversa:
