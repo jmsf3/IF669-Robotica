@@ -9,7 +9,6 @@
 
 int main()
 {
-
     // Conectar com o CoppeliaSim
     int client = clientCoppelia();
 
