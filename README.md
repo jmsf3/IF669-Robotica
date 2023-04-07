@@ -36,7 +36,7 @@ Seja $\pi$ o plano que é perdependicular ao plano $xy$ e contém os pontos $(x_
 
 > $$ \tag{1.4} \Large (l_1)^2 = d^2 + (l_2)^2 - 2dl_2cos(\gamma) \implies \gamma = arccos(\frac{d^2 + (l_2)^2 - (l_1)^2}{2dl_2}) $$
  
-Por fim, para determinar ($\alpha_1$ e $\alpha_2$), considere esta última visão do plano $\pi$:
+Por fim, para determinar $\alpha_1$ e $\alpha_2$, considere esta última visão do plano $\pi$:
  
 <p align="center">
   <img src="cinematica-inversa-3.png"/>
