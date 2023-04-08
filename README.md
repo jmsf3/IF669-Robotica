@@ -24,7 +24,7 @@ Usamos cinemática inversa para determinar uma possível combinação de ângulo
 
 > $$ \tag{1.1} \Large tg(\beta) = \frac{x_t - x_b}{y_t - y_b} \implies \beta = arctg(\frac{x_t - x_b}{y_t - y_b}) $$
 
-Seja $\pi$ o plano que é perdependicular ao plano $xy$ e contém os pontos $(x_t, y_t, z_t)$ e $(x_t, y_t, z_t)$. Sejam $\phi$, $\theta$ e $\gamma$ ângulos auxiliares que ajudaram na determinação dos ângulos de junta restantes ($\alpha_1$ e $\alpha_2$), considere a seguinte visão do plano $\pi$:
+Seja $\pi$ o plano que é perdependicular ao plano $xy$ e contém os pontos $(x_b, y_b, z_b)$ e $(x_t, y_t, z_t)$. Sejam $\phi$, $\theta$ e $\gamma$ ângulos auxiliares que ajudaram na determinação dos ângulos de junta restantes ($\alpha_1$ e $\alpha_2$), considere a seguinte visão do plano $\pi$:
 
 <p align="center">
   <img src="cinematica-inversa-2.png"/>
