@@ -2,7 +2,7 @@
 Projeto extra da cadeira de Introdução à Programação do CIn-UFPE utilizando o simulador de robôs [CoppeliaSim](https://www.coppeliarobotics.com/).
 
 # Objetivo
-O projeto consiste em desenvolver um progama na linguagem __C++__ que seja capaz de ler um arquivo de texto, que contém um número arbitrário de votos, e simular uma votação na urna eletrônica com o braço robótico __Niryo One__.
+O projeto consiste em desenvolver um programa na linguagem __C++__ que seja capaz de ler um arquivo de texto, que contém um número arbitrário de votos, e simular uma votação na urna eletrônica com o braço robótico __Niryo One__.
 
 # Funcionamento
 * __Conexão com o simulador__
