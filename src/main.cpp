@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "coppelia\coppelia.h"
-#include "leitura\leitura.h"
-#include "movimento\movimento.h"
-#include "..\dep\include\remoteApi\extApi.h"
+#include "coppelia/coppelia.h"
+#include "leitura/leitura.h"
+#include "movimento/movimento.h"
+#include "../dep/include/remoteApi/extApi.h"
 #define BUFFER 4096
 
 int main()

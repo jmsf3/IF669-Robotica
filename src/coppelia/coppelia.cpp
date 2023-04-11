@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "coppelia.h"
-#include "..\..\dep\include\remoteApi\extApi.h"
+#include "../../dep/include/remoteApi/extApi.h"
 #define PORT 19999
 #define TIME_OUT 2000
 #define THREAD_CYCLE 5

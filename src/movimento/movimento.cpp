@@ -3,8 +3,8 @@
 #include <string.h>
 #include <math.h>
 #include "movimento.h"
-#include "..\coppelia\coppelia.h"
-#include "..\..\dep\include\remoteApi\extApi.h"
+#include "../coppelia/coppelia.h"
+#include "../../dep/include/remoteApi/extApi.h"
 #define X 0
 #define Y 1
 #define Z 2
